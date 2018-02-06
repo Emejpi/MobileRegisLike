@@ -7,32 +7,47 @@ public class Deck : PileOfCards {
     public float pleacmentRange;
     public float rotationRange;
 
+    public bool topJustRemoved;
+
+    public int maxDeckSize;
+
+    public void TopJustRemovedYouAreWelcome()
+    {
+        topJustRemoved = true;
+    }
+
     public void RemoveTop()
     {
-        MenagersReferencer.GetButtonsMenager().Generate(new Option(Color.gray, "WAIT"));
+        MenagersReferencer.GetButtonsMenager().Generate(new Option(ButtonsGenerator.ColorGroup.blocked, "WAIT"));
         MenagersReferencer.GetButtonsMenager().DisActivateButtons();
 
         if (cards.Count > 1)
         {
-            Card card = cards[0];
-            MoveCardBeetweenPiles(cards[0], secondMainPile);
-            card.Flip();
+            if (!topJustRemoved)
+            {
+                Card card = cards[0];
+                MoveCardBeetweenPiles(card, secondMainPile);
+                card.Flip();
+            }
         }
-        else if (cards.Count == 1)
+        else if(!topJustRemoved || cards.Count == 0)
         {
-            cards[0].Flip();
+            if(cards.Count != 0)
+                cards[0].Flip();
             //MoveCardBeetweenPiles(cards[0], secondMainPile);
-            secondMainPile.RemoveAll();
-
+            secondMainPile.Remove(maxDeckSize - 1);
+       
             Shuffle();
         }
+
+        topJustRemoved = false;
 
         FlipTop();
     }
 
     public void GenerateButtons(Card card)
     {
-        if (card != cards[0])
+        if (cards.Count == 0 || card != cards[0])
             return;
 
         MenagersReferencer.GetButtonsMenager().Generate(card.optionsHolder);
@@ -43,7 +58,31 @@ public class Deck : PileOfCards {
         UpdateCardList();
         Shuffle();
         ApplyRandomPleacment();
-        cards[0].Flip();
+        AjustDeckSize(0);
+        AddManuCard();
+        
+        //cards[0].Flip();
+    }
+
+    public void AddManuCard()
+    {
+        Card card = MenagersReferencer.GetCardsGen().CreateNewCard(
+            MenagersReferencer.GetCardsGen().GetCardWithIdent(CardStatisctics.Identifaier.manu));
+        //card.Flip(100);
+        InsertCard(card, cards.Count);
+    }
+
+    public void AjustDeckSize(int size)
+    {
+        while(cards.Count > size)
+        {
+           cards[0].transform.position = secondMainPile.transform.position;
+           FlipTop();
+            Card card = cards[0];
+           MoveCardBeetweenPiles(card, secondMainPile);
+            card.Flip();
+           //RemoveTop();
+        }
     }
 	
     protected void UpdateCardList()
@@ -51,7 +90,7 @@ public class Deck : PileOfCards {
         cards = new List<Card>();
 
         for (int i = transform.childCount - 1; i >= 0; i--)
-            cards.Add(transform.GetChild(i).GetComponent<Card>());
+            AddCard(transform.GetChild(i).GetComponent<Card>());
 
         foreach (Card card in cards)
             card.deck = this;
@@ -64,7 +103,7 @@ public class Deck : PileOfCards {
 
     void InsertCard(Card card, int index) //SKONC TO
     {
-        cards.Insert(index, card);
+        AddCard(index, card);
         
         for(int i = index; i >= 0; i--)
         {
@@ -75,6 +114,7 @@ public class Deck : PileOfCards {
         }
 
         card.Flip(transform.position);
+        card.currentPile = this;
         //if(index == 1)
         //{
         //    card.Flip();
@@ -84,7 +124,7 @@ public class Deck : PileOfCards {
     void PutCardOnDeckTop(Card card)
     {
         cards.Remove(card);
-        cards.Insert(0, card);
+        AddCard(0, card);
         card.transform.parent = null;
         card.transform.parent = transform;
     }
@@ -96,7 +136,7 @@ public class Deck : PileOfCards {
             int index = cards.Count - 1;
             Card card = cards[index];
             cards.RemoveAt(index);
-            cards.Insert(0, card);
+            AddCard(0, card);
             Vector3 pose = card.transform.position;
             card.transform.parent = null;
             card.transform.parent = transform;
@@ -108,7 +148,7 @@ public class Deck : PileOfCards {
             int index = Random.Range(0, cards.Count);
             Card card = cards[index];
             cards.RemoveAt(index);
-            cards.Insert(0, card);
+            AddCard(0, card);
             Vector3 pose = card.transform.position;
             card.transform.parent = null;
             card.transform.parent = transform;
@@ -130,9 +170,32 @@ public class Deck : PileOfCards {
         return Random.Range(-value, value);
     }
 
-    public void ChangeCard(Card card, int index)//FINISH IT
+    public bool ShuldIChooseDeck()
     {
+        return Random.Range(0, 100) < cards.Count * 100 / (cards.Count + secondMainPile.cards.Count);
+    }
 
+    public Card GetRandomCardOfTypeFromCardsInPlay(List<Card.Type> types)
+    {
+        Card card;
+
+        if (ShuldIChooseDeck())
+        {
+            if(GetRandomCard(types, out card))
+            return card;
+        }
+        secondMainPile.GetRandomCard(types, out card);
+
+        return card;
+    }
+
+    public Card DestroyCardOfTypeFromCardsInPlay(List<Card.Type> types)
+    {
+        if(ShuldIChooseDeck())
+        {
+            return DestroyCard(types);
+        }
+            return secondMainPile.DestroyCard(types);
     }
 
 }

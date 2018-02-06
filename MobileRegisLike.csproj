@@ -78,9 +78,11 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Action.cs" />
     <Compile Include="Assets\Scripts\BasicActions.cs" />
     <Compile Include="Assets\Scripts\ButtonsGenerator.cs" />
     <Compile Include="Assets\Scripts\Cards\Card.cs" />
+    <Compile Include="Assets\Scripts\Cards\CardControl.cs" />
     <Compile Include="Assets\Scripts\Cards\CardsGenerator.cs" />
     <Compile Include="Assets\Scripts\Cards\CardStatisctics.cs" />
     <Compile Include="Assets\Scripts\Cards\Deck.cs" />
@@ -91,6 +93,8 @@
     <Compile Include="Assets\Scripts\Cards\Editors\GraveEditor.cs" />
     <Compile Include="Assets\Scripts\Cards\Grave.cs" />
     <Compile Include="Assets\Scripts\Cards\MaskingSolver.cs" />
+    <Compile Include="Assets\Scripts\Cards\NamesGenerator.cs" />
+    <Compile Include="Assets\Scripts\Cards\NamesHolder.cs" />
     <Compile Include="Assets\Scripts\Cards\PileOfCards.cs" />
     <Compile Include="Assets\Scripts\ChildsReferencer.cs" />
     <Compile Include="Assets\Scripts\IconInButton.cs" />
@@ -101,8 +105,10 @@
     <Compile Include="Assets\Scripts\OptionsHolder.cs" />
     <Compile Include="Assets\Scripts\PointsHolder.cs" />
     <Compile Include="Assets\Scripts\PointsHoldersMenager.cs" />
+    <Compile Include="Assets\Scripts\ReloadOnTimer.cs" />
     <Compile Include="Assets\Scripts\RowsHolder.cs" />
     <Compile Include="Assets\Scripts\SingleButton.cs" />
+    <Compile Include="Assets\Scripts\TextWithSpecialSymbols.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

@@ -3,14 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PointsHolder : MonoBehaviour {
-
-    public enum Type
-    {
-        people,
-        monay,
-        rooms
-    }
+public class PointsHolder : NamesHolder {
 
     public void Add(int value)
     {
@@ -20,9 +13,35 @@ public class PointsHolder : MonoBehaviour {
             this.value = 0;
 
         text.text = this.value + "";
+
+        UpdateNames();
     }
 
-    public Type type;
+    //public void Add(int value, string name)
+    //{
+    //    if (name != "")
+    //    {
+    //        if (value < 0)
+    //        {
+    //            names.Remove(name);
+    //        }
+    //        else if (value > 0)
+    //        {
+    //            names.Add(name);
+    //        }
+    //    }
+    //    Add(value);
+    //}
+
+    void UpdateNames()
+    {
+        while(names.Count < value)
+        {
+            names.Add(MenagersReferencer.GetCardsGen().namesGen.GetRandomName(type));
+        }
+    }
+
+    //public Card.Type type;
     public int value;
 
     Text text;
@@ -31,5 +50,7 @@ public class PointsHolder : MonoBehaviour {
     {
         text = transform.GetChild(0).GetComponent<Text>();
         text.text = value + "";
+
+        UpdateNames();
     }
 }

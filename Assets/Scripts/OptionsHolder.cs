@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class OptionsHolder : MonoBehaviour {
 
-    List<Option> options;
+    public List<Option> options;
+
+    public Card card;
 
     public int GetNumberOfOptions() { return options.Count; }
 
@@ -28,6 +30,7 @@ public class OptionsHolder : MonoBehaviour {
         for(int i = 0; i < transform.childCount; i++)
         {
             options.Add(transform.GetChild(i).GetComponent<Option>());
+            transform.GetChild(i).GetComponent<Option>().optionsHolder = this;
         }
 	}
 

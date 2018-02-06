@@ -15,7 +15,7 @@ public class PointsHoldersMenager : MonoBehaviour {
         }
     }
 
-    public PointsHolder GetPointsHolder(PointsHolder.Type type)
+    public PointsHolder GetPointsHolder(Card.Type type)
     {
         foreach (PointsHolder pointsHolder in pointsHolders)
             if (pointsHolder.type == type)
@@ -23,12 +23,17 @@ public class PointsHoldersMenager : MonoBehaviour {
         return pointsHolders[0];
     }
 
-    public void AddPoints(int value, PointsHolder.Type type)
+    public void AddPoints(int value, Card.Type type)
     {
         GetPointsHolder(type).Add(value);
     }
 
-    public int GetValue(PointsHolder.Type type)
+    //public void AddPoints(int value, Card.Type type, string name)
+    //{
+    //    GetPointsHolder(type).Add(value, name);
+    //}
+
+    public int GetValue(Card.Type type)
     {
         return GetPointsHolder(type).value;
     }

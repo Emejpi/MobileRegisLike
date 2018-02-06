@@ -1,9 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Card : CardStatisctics {
+
+
+
     public int index;
+
+    public PileOfCards currentPile;
 
     Vector3 targetRot = new Vector3(0, 180, 10);
 
@@ -36,12 +42,59 @@ public class Card : CardStatisctics {
     public delegate void OnFlipped();
     public OnFlipped onFlipped;
 
+    public Text descriptionText;
+
+    public Card cardHolded;
+
+    List<Option> options;
+
+    //public void AddNameForText(string name, Card.Type type)
+    //{
+
+    //    for(int i = 0; i < namesForText.Count; i++)
+    //    {
+    //        if(namesTypesForText[i] == type)
+    //        {
+    //            if(namesForText[i] == "")
+    //            {
+    //                  namesForText[i] = name;
+    //            }
+    //        }
+    //    }
+
+    //    //namesForText.Add(name);
+    //    //namesTypesForText.Add(type);
+    //}
+
+    public void InsertNamesToText()
+    {
+        Text text;
+        //text.text.Replace()
+    }
+
+    public void ShowDescription(Text text)
+    {
+        descriptionText.transform.parent.gameObject.SetActive(true);
+        descriptionText.text = text.text;
+    } 
+
+    public void HideDescription()
+    {
+        descriptionText.transform.parent.gameObject.SetActive(false);
+    }
+
     void Start()
     {
-            
+        textMain.text = mainText;
+        GenerateTitle();
             //addFlippingToQueue = false;
 
             //currentRightRot = 0;
+    }
+
+    public void DestroyIt()
+    {
+        Flip(new Vector3(6, 6, 6));
     }
 
     public void Flip(float extraSpeed)
@@ -74,10 +127,13 @@ public class Card : CardStatisctics {
 
     void Fliped()
     {
+        if (MenagersReferencer.GetDeck().cards.Count > 0 && MenagersReferencer.GetDeck().cards[0] == this)
+            GenerateTitle();
+
         extraSpeed = 0;
 
         if(currentRightRot == 180)
-            deck.GenerateButtons(this);
+            MenagersReferencer.GetDeck().GenerateButtons(this);
     }
 
     void ActualFlip()
@@ -90,11 +146,12 @@ public class Card : CardStatisctics {
             addFlippingToQueue = true;
         else
         {
+
             state = State.flipping;
             startPose = transform.position;
             currentRightRot = 180 - currentRightRot;
             targetRot = new Vector3(0, currentRightRot, 
-                10 + (currentRightRot == 180 ? 0 : deck.RandomMP(deck.rotationRange)));
+                10 + (currentRightRot == 180 ? 0 : MenagersReferencer.GetDeck().RandomMP(MenagersReferencer.GetDeck().rotationRange)));
         }
     }
 
@@ -113,6 +170,7 @@ public class Card : CardStatisctics {
 
     Vector3 GetRandomizedPose()
     {
+        deck = MenagersReferencer.GetDeck();
         return new Vector3(deck.RandomMP(deck.pleacmentRange), deck.RandomMP(deck.rotationRange), 0);
 
     }
@@ -127,7 +185,7 @@ public class Card : CardStatisctics {
                 else
                     transform.eulerAngles = Vector3.RotateTowards(transform.eulerAngles,
                         new Vector3(targetRot.x, targetRot.y, targetRot.z),
-                        (speedFlipping + extraSpeed)* Time.deltaTime, speedFlipping + extraSpeed);
+                        (speedFlipping + extraSpeed)* Time.deltaTime, (speedFlipping + extraSpeed) * Time.deltaTime * 75);
 
                 float parabol = (90 - Mathf.Abs(transform.eulerAngles.y - 90)) / 90;
                 float currentScale = 0.05f + parabol * scaleFlipping;
@@ -149,6 +207,8 @@ public class Card : CardStatisctics {
             case State.nothing:
                 if (flipsQueaue.Count > 0)
                 {
+                    if (flipsQueaue[0] == new Vector3(6, 6, 6))
+                        Destroy(gameObject);
                     Flip(flipsQueaue[0]);
                     flipsQueaue.RemoveAt(0);
                 }

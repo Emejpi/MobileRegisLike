@@ -12,7 +12,7 @@ public class ButtonsGeneratorEditor : Editor
         ButtonsGenerator myScript = (ButtonsGenerator)target;
         if (GUILayout.Button("Generate"))
         {
-            myScript.Generate(new Option(Color.green, "test"));
+            //myScript.Generate(new Option(Color.green, "test"));
         }
     }
 }

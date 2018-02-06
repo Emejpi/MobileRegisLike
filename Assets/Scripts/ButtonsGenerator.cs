@@ -20,6 +20,27 @@ public class ButtonsGenerator : ChildsReferencer {
 
     public List<Button> buttons;
 
+    public enum ColorGroup
+    {
+        basic,
+        blocked,
+        yes,
+        no,
+        wrong
+    }
+
+    public List<ColorGroup> colorGroups;
+    public List<Color> colors;
+
+    Color GetColor( ColorGroup colorGroup)
+    {
+        for (int i = 0; i < colorGroups.Count; i++)
+            if (colorGroups[i] == colorGroup)
+                return colors[i];
+
+        return Color.white;
+    }
+
     public void PrepareButtons()
     {
         foreach (Button button in buttons)
@@ -94,9 +115,11 @@ public class ButtonsGenerator : ChildsReferencer {
                     rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize = new Vector2(buttonsSpeace.x / rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons, rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize.y);
                     for (int j = 0; j < rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons; j++)
                     {
-                        ModifyButton(rowsHolder.GetChild(i)
-                            .GetComponent<MaxButtonsHolder>().GetChild(j).GetComponent<Button>(),
-                            optionsHolder.GetOption(indexer));
+                        Option optionCur = optionsHolder.GetOption(indexer);
+                        Button buttonCur = rowsHolder.GetChild(i)
+                            .GetComponent<MaxButtonsHolder>().GetChild(j).GetComponent<Button>();
+
+                            ModifyButton(buttonCur, optionCur);
 
                         indexer++;
                     }
@@ -108,25 +131,31 @@ public class ButtonsGenerator : ChildsReferencer {
 
     void ModifyButton(Button button, Option option)
     {
-        button.gameObject.SetActive(true);
-        button.transform.GetChild(0).GetComponent<Text>().text = option.text;
-
-        button.GetComponent<SingleButton>().UpdateInsaid(option);
-
-        if (IsAfordable(option))
+        Option actualOption = option;
+        if(option.randomOption)
         {
-            button.GetComponent<Image>().color = option.color;
-
-            if (option.types.Count > 0)
+            OptionsHolder randomOptionsHolder = option.GetComponent<OptionsHolder>();
+            if(randomOptionsHolder.options.Count > 0)
             {
-                for (int j = 0; j < option.types.Count; j++)
+                actualOption = randomOptionsHolder.options[Random.Range(0, randomOptionsHolder.options.Count)];
+            }
+        }    
+
+        button.GetComponent<SingleButton>().on = true;
+        button.gameObject.SetActive(true);
+        button.transform.GetChild(0).GetComponent<Text>().text = actualOption.text;
+
+        button.GetComponent<SingleButton>().UpdateInsaid(actualOption);
+
+        if (actualOption.IsAfordable())
+        {
+            button.GetComponent<Image>().color = GetColor(actualOption.colorGrup);
+
+            //if (actualOption.types.Count > 0)
+            {
+                //for (int j = 0; j < actualOption.types.Count; j++)
                 {
-                    button.onClick.RemoveAllListeners();
-                    button.onClick.AddListener(delegate ()
-                    {
-                        option.ExecuteOption();
-                    });
-                    button.onClick.AddListener(delegate () { MenagersReferencer.GetDeck().RemoveTop(); });
+                    button.GetComponent<SingleButton>().SetOnClickEvent();
                 }
             }
         }
@@ -134,21 +163,8 @@ public class ButtonsGenerator : ChildsReferencer {
         {
             button.GetComponent<Image>().color = Color.gray;
             button.onClick.RemoveAllListeners();
+            button.GetComponent<SingleButton>().on = false;
         }
-    }
-
-    bool IsAfordable(Option option)
-    {
-        if (option.types.Count == 0)
-            return true;
-
-        for(int i = 0; i < option.types.Count; i++)
-        {
-            if (MenagersReferencer.pointsMenager.GetValue(option.types[i]) < - option.values[i])
-                return false;
-        }
-
-        return true;
     }
 
     public void DisActivateButtons()

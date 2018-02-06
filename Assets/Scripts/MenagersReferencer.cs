@@ -18,4 +18,14 @@ public class MenagersReferencer : MonoBehaviour {
         buttonsMenager = GameObject.Find("BottomScreen").GetComponent<ButtonsGenerator>();
         pointsMenager = GameObject.Find("TopScreen").GetComponent<PointsHoldersMenager>();
     }
+
+    public static void Reload()
+    {
+        grave.gameObject.AddComponent<ReloadOnTimer>();
+    }
+
+    public static void Exit()
+    {
+        Application.Quit();
+    }
 }

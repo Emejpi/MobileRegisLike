@@ -13,4 +13,9 @@ public class IconInButton : MonoBehaviour {
         icon.sprite = sprite;
         text.text = (value >= 0 ? "+" : "-") + Mathf.Abs(value);
     }
+
+    void Start()
+    {
+        text.fontStyle = FontStyle.Bold;
+    }
 }
