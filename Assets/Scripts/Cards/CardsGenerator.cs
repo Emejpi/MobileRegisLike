@@ -6,23 +6,32 @@ public class CardsGenerator : PileOfCards {
 
     public NamesGenerator namesGen;
 
+    public GameObject cardBase;
+
+    int currentIndex;
+
     void Start()
     {
         //print(Card.Type.monster.ToString());
 
         UpdateCardsIndexes();
-        GenerateStartDeck();
+        //GenerateStartDeck();
+    }
+
+    public int GetNewIndex()
+    {
+        return currentIndex++;
     }
 
     public void UpdateCardsIndexes()
     {
-        cards = new List<Card>();
+        //cards = new List<Card>();
 
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            AddCard(transform.GetChild(i).GetComponent<Card>());
-            cards[cards.Count - 1].gameObject.SetActive(false);
-        }
+        //for (int i = 0; i < transform.childCount; i++)
+        //{
+        //    AddCard(transform.GetChild(i).GetComponent<Card>());
+        //    cards[cards.Count - 1].gameObject.SetActive(false);
+        //}
 
         //foreach (Card card in cards)
         //    card.Flip();
@@ -30,42 +39,45 @@ public class CardsGenerator : PileOfCards {
 
     public void GenerateStartDeck()
     {
-        for (int i = 0; i < cards.Count; i++)
-        {
-            cards[i].index = i;
-            if (cards[i].startDeckCard)
-                CreateNewCard(cards[i]).transform.parent = secondMainPile.transform;
-        }
+        //for (int i = 0; i < cards.Count; i++)
+        //{
+        //    cards[i].index = i;
+        //    if (cards[i].startDeckCard)
+        //        CreateNewCard(cards[i]).transform.parent = secondMainPile.transform;
+        //}
     }
 
-    Card CreateNewCard(int index)
-    {
-        return CreateNewCard(cards[index]);
-    }
+    //Card CreateNewCard(int index)
+    //{
+    //    return CreateNewCard(cards[index]);
+    //}
 
-    public Card CreateNewCard(Card card)
+    
+
+    public Card CreateNewCard(CardControl cardControl)
     {
-        GameObject newCard = Instantiate(card.gameObject, transform.position, card.transform.rotation);
+        GameObject newCard = Instantiate(cardBase, transform.position, cardBase.transform.rotation);
         newCard.SetActive(true);
+        newCard.GetComponent<Card>().myControl = cardControl;
         return newCard.GetComponent<Card>();
         //MoveCardBeetweenPiles(cardCopie, secondMainPile);
     }
 
-    public Card AddNewCardToDeck(Card cardPref /*, Card iniciator*/)
+    public Card AddNewCardToDeck(CardControl cardCont /*, Card iniciator*/)
     {
-        Card card = CreateNewCard(cardPref);
+        Card card = CreateNewCard(cardCont);
         card.deck = (Deck)secondMainPile;
         card.transform.parent = secondMainPile.transform;
 
         //for (int i = 0; i < iniciator.namesForText.Count; i++)
         //    card.AddNameForText(iniciator.namesForText[i], iniciator.namesTypesForText[i]);
 
-        if (false && MenagersReferencer.GetDeck().ShuldIChooseDeck())
-        {
-            card.Flip(100);
-            MenagersReferencer.GetDeck().InsertCardOnRandomPosition(card);
-        }
-        else
+        //if (false && MenagersReferencer.GetDeck().ShuldIChooseDeck())
+        //{
+        //    card.Flip(100);
+        //    MenagersReferencer.GetDeck().InsertCardOnRandomPosition(card);
+        //}
+        //else
         {
             MoveCardBeetweenPiles(card, MenagersReferencer.GetGrave());
         }
@@ -73,16 +85,16 @@ public class CardsGenerator : PileOfCards {
         return card;
     }
     
-    public void AddCardRandomToDeck(List<Card.Type> types/*, Card iniciator*/)
-    {
-        Card cardToAdd;
-        if(GetRandomCard(types, out cardToAdd))
-            AddNewCardToDeck(cardToAdd/*, iniciator*/);
-    }
+    //public void AddCardRandomToDeck(List<Card.Type> types/*, Card iniciator*/)
+    //{
+    //    Card cardToAdd;
+    //    if(GetRandomCard(types, out cardToAdd))
+    //        AddNewCardToDeck(cardToAdd/*, iniciator*/);
+    //}
 
-    public void AddCardOfIdentToDeck(Card.Identifaier ident)
-    {
-        Card cardToAdd = GetCardWithIdent(ident);
-            AddNewCardToDeck(cardToAdd);
-    }
+    //public void AddCardOfIdentToDeck(Card.Identifaier ident)
+    //{
+    //    Card cardToAdd = GetCardWithIdent(ident);
+    //        AddNewCardToDeck(cardToAdd);
+    //}
 }

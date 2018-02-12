@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class Card : CardStatisctics {
 
-
+    public CardControl myControl;
 
     public int index;
 
@@ -46,8 +46,6 @@ public class Card : CardStatisctics {
 
     public Card cardHolded;
 
-    List<Option> options;
-
     //public void AddNameForText(string name, Card.Type type)
     //{
 
@@ -85,8 +83,8 @@ public class Card : CardStatisctics {
 
     void Start()
     {
-        textMain.text = mainText;
-        GenerateTitle();
+        //textMain.text = mainText;
+        //GenerateTitle();
             //addFlippingToQueue = false;
 
             //currentRightRot = 0;
@@ -127,8 +125,8 @@ public class Card : CardStatisctics {
 
     void Fliped()
     {
-        if (MenagersReferencer.GetDeck().cards.Count > 0 && MenagersReferencer.GetDeck().cards[0] == this)
-            GenerateTitle();
+        //if (MenagersReferencer.GetDeck().cards.Count > 0 && MenagersReferencer.GetDeck().cards[0] == this)
+        //    GenerateTitle();
 
         extraSpeed = 0;
 

@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CardControl : MonoBehaviour {
+public class CardControl : GraphElement {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    int index;
+
+    public CardControl inharited;
+
+    void Start()
+    {
+        Prepare();
+        index = MenagersReferencer.GetCardsGen().GetNewIndex();
+    }
+
 }

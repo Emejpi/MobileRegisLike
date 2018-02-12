@@ -104,9 +104,9 @@ public class SingleButton : MonoBehaviour {
             iconsHolder.transform.GetChild(i).gameObject.SetActive(false);
         }
 
-        if(option)
-        if (option.actions.Count > 0)
-            iconsHolder.transform.GetChild(iconsHolder.transform.childCount - 1).gameObject.SetActive(true);
+        //if(option)
+        //if (option.actions.Count > 0)
+        //    iconsHolder.transform.GetChild(iconsHolder.transform.childCount - 1).gameObject.SetActive(true);
     }
 
 }

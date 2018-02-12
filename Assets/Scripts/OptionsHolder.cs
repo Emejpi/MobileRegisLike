@@ -4,34 +4,36 @@ using UnityEngine;
 
 public class OptionsHolder : MonoBehaviour {
 
-    public List<Option> options;
+ //   public List<Option> options;
 
-    public Card card;
+ //   public CardControl cardCont;
 
-    public int GetNumberOfOptions() { return options.Count; }
+ //   public int GetNumberOfOptions() { return options.Count; }
 
-    public OptionsHolder(Option option)
-    {
-        options = new List<Option>();
-        options.Add(option);
-    }
+ //   public OptionsHolder(Option option)
+ //   {
+ //       options = new List<Option>();
+ //       options.Add(option);
+ //   }
 
-    public Option GetOption(int index)
-    {
-        //if (index >= options.Count)
-        //    return new Option(Color.white,"...");
-        return options[index];
-    }
+ //   public Option GetOption(int index)
+ //   {
+ //       //if (index >= options.Count)
+ //       //    return new Option(Color.white,"...");
+ //       return options[index];
+ //   }
 
-	// Use this for initialization
-	void Start () {
-        options = new List<Option>();
+	//// Use this for initialization
+	//void Start () {
+ //       cardCont = GetComponent<CardControl>();
 
-        for(int i = 0; i < transform.childCount; i++)
-        {
-            options.Add(transform.GetChild(i).GetComponent<Option>());
-            transform.GetChild(i).GetComponent<Option>().optionsHolder = this;
-        }
-	}
+ //       options = new List<Option>();
+
+ //       for(int i = 0; i < transform.childCount; i++)
+ //       {
+ //           options.Add(transform.GetChild(i).GetComponent<Option>());
+ //           transform.GetChild(i).GetComponent<Option>().optionsHolder = this;
+ //       }
+	//}
 
 }

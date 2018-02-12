@@ -16,21 +16,21 @@ public class NamesGenerator : MonoBehaviour {
         }
 	}
 	
-    public string GetNameOfType(Card.Type type)
-    {
-        foreach (NamesHolder namesHolder in namesHolders)
-            if (namesHolder.type == type)
-                return namesHolder.nameOfType;
+    //public string GetNameOfType(Card.Type type)
+    //{
+    //    foreach (NamesHolder namesHolder in namesHolders)
+    //        if (namesHolder.type == type)
+    //            return namesHolder.nameOfType;
 
-        return "";
-    }
+    //    return "";
+    //}
 
-	public string GetRandomName(Card.Type type)
-    {
-        foreach (NamesHolder namesHolder in namesHolders)
-            if (namesHolder.type == type)
-                return namesHolder.GetRandomName();
+	//public string GetRandomName(Card.Type type)
+ //   {
+ //       foreach (NamesHolder namesHolder in namesHolders)
+ //           if (namesHolder.type == type)
+ //               return namesHolder.GetRandomName();
 
-        return "error";
-    }
+ //       return "error";
+ //   }
 }

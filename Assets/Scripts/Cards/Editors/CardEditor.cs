@@ -28,13 +28,13 @@ public class CardEditor : Editor
         }
         if (GUILayout.Button("PrefsUp"))
         {
-            foreach(Option option in myScript.optionsHolder.options)
-            {
-                foreach(Action action in option.actions)
-                {
-                    action.UpdateCardsPrefs();
-                }
-            }
+            //foreach(Option option in myScript.optionsHolder.options)
+            ////{
+            ////    foreach(Action action in option.actions)
+            ////    {
+            ////        action.UpdateCardsPrefs();
+            ////    }
+            //}
             
         }
     }

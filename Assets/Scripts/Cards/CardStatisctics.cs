@@ -58,7 +58,7 @@ public class CardStatisctics : BasicActions {
 
     [Tooltip("? - new name, \n name - the same as name, \n blank - inharited")]
     List<string> namesForText;
-    List<Card.Type> namesTypesForText;
+    //List<Card.Type> namesTypesForText;
 
     public bool IsItOfTypes(List<Type> types)
     {
@@ -120,7 +120,7 @@ public class CardStatisctics : BasicActions {
         }
 
         tittle.text += GetStringFromIdent(ident);
-        InsertNamesInTexts("tittle?", tittle.text);
+        //InsertNamesInTexts("tittle?", tittle.text);
 
         if (types.Count > 0)
             typeText.text = types[0].ToString().ToUpper();
@@ -165,39 +165,39 @@ public class CardStatisctics : BasicActions {
 
     }
 
-    void GenerateNames()
-    {
-        for (int i = 0; i < namesForText.Count; i++)
-        {
-            if (namesForText[i] == "name")
-            {
-                namesForText[i] = name;
-            }
-            else if (namesForText[i] == "?")
-            {
-                namesForText[i] = MenagersReferencer.GetPointsMenager().GetPointsHolder(namesTypesForText[i]).TestRandomName(); 
-            }
-        }
+    //void GenerateNames()
+    //{
+    //    for (int i = 0; i < namesForText.Count; i++)
+    //    {
+    //        if (namesForText[i] == "name")
+    //        {
+    //            namesForText[i] = name;
+    //        }
+    //        else if (namesForText[i] == "?")
+    //        {
+    //            namesForText[i] = MenagersReferencer.GetPointsMenager().GetPointsHolder(namesTypesForText[i]).TestRandomName(); 
+    //        }
+    //    }
 
-        //InsertNamesInTexts();
-    }
+    //    //InsertNamesInTexts();
+    //}
 
-    void InsertNamesInTexts(string oldText, string newText)
-    {
-        //for (int i = 0; i < namesForText.Count; i++)
-        //{
-            textMain.text = textMain.text.Replace(oldText, newText);
-            //textMain.text = textMain.text.Replace("name?", name);
-            //textMain.text =  textMain.text.Replace((namesTypesForText[i]).ToString() + "?", namesForText[i]);
+    //void InsertNamesInTexts(string oldText, string newText)
+    //{
+    //    //for (int i = 0; i < namesForText.Count; i++)
+    //    //{
+    //        textMain.text = textMain.text.Replace(oldText, newText);
+    //        //textMain.text = textMain.text.Replace("name?", name);
+    //        //textMain.text =  textMain.text.Replace((namesTypesForText[i]).ToString() + "?", namesForText[i]);
 
-            foreach (Option option in optionsHolder.options)
-            {
-                //print((namesTypesForText[i]).ToString() + "?");
-                //if(option.GetComponent<TextWithSpecialSymbols>().specialSymbols)
-                {
-                    option.text = option.text.Replace(oldText, newText);
-            }
-            }
-      //  }
-    }
+    //        foreach (Option option in optionsHolder.options)
+    //        {
+    //            //print((namesTypesForText[i]).ToString() + "?");
+    //            //if(option.GetComponent<TextWithSpecialSymbols>().specialSymbols)
+    //            {
+    //                option.text = option.text.Replace(oldText, newText);
+    //        }
+    //        }
+    //  //  }
+    //}
 }

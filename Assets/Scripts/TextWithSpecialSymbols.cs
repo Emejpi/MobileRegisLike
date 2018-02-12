@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class TextWithSpecialSymbols : Text {
     public bool specialSymbols = true;
 	
-    public void Repleace(Card.Type type, string textNew)
-    {
-        print(MenagersReferencer.cardsGen.namesGen.GetNameOfType(type)+"?");
-        text = text.Replace((MenagersReferencer.cardsGen.namesGen.GetNameOfType(type)+"?"), textNew);
-    }
+    //public void Repleace(Card.Type type, string textNew)
+    //{
+    //    print(MenagersReferencer.cardsGen.namesGen.GetNameOfType(type)+"?");
+    //    text = text.Replace((MenagersReferencer.cardsGen.namesGen.GetNameOfType(type)+"?"), textNew);
+    //}
 }

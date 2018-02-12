@@ -73,14 +73,10 @@ public class ButtonsGenerator : ChildsReferencer {
     //    this.numberOfButtons = numberOfButtons;
     //    Generate(); 
     //}
-    public void Generate(Option option)
-    {
-         Generate(new OptionsHolder(option));        
-    }
 
-    public void Generate(OptionsHolder optionsHolder)
+    public void Generate(GraphElement optionsHolder)
     {
-        numberOfButtons = optionsHolder.GetNumberOfOptions();
+        numberOfButtons = optionsHolder.GetNumberOfBranches();
 
         DestroyButtons();
 
@@ -115,7 +111,7 @@ public class ButtonsGenerator : ChildsReferencer {
                     rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize = new Vector2(buttonsSpeace.x / rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons, rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize.y);
                     for (int j = 0; j < rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons; j++)
                     {
-                        Option optionCur = optionsHolder.GetOption(indexer);
+                        Option optionCur = (Option)optionsHolder.GetBranch(indexer);
                         Button buttonCur = rowsHolder.GetChild(i)
                             .GetComponent<MaxButtonsHolder>().GetChild(j).GetComponent<Button>();
 
@@ -132,14 +128,14 @@ public class ButtonsGenerator : ChildsReferencer {
     void ModifyButton(Button button, Option option)
     {
         Option actualOption = option;
-        if(option.randomOption)
-        {
-            OptionsHolder randomOptionsHolder = option.GetComponent<OptionsHolder>();
-            if(randomOptionsHolder.options.Count > 0)
-            {
-                actualOption = randomOptionsHolder.options[Random.Range(0, randomOptionsHolder.options.Count)];
-            }
-        }    
+        //if(option.randomOption)
+        //{
+        //    OptionsHolder randomOptionsHolder = option.GetComponent<OptionsHolder>();
+        //    if(randomOptionsHolder.options.Count > 0)
+        //    {
+        //        actualOption = randomOptionsHolder.options[Random.Range(0, randomOptionsHolder.options.Count)];
+        //    }
+        //}    
 
         button.GetComponent<SingleButton>().on = true;
         button.gameObject.SetActive(true);

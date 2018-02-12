@@ -3,149 +3,142 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Option : MonoBehaviour {
+public class Option : GraphElement {
 
     [Header("Option")]
     public ButtonsGenerator.ColorGroup colorGrup;
     public string text = "";
 
-    public bool randomOption;
-
-    public List<Card.Type> types;
+    public List<PointsHolder.PointsType> types;
     public List<int> values;
 
-    public List<Card.Type> cardTypesNeeded;
-    public Card.Identifaier identNeeded;
+    public bool removeIt;
 
-    public List<Action> actions;
+    bool descriptionGenerated;
 
-    public bool descriptionGenerated;
+    //void GenerateDescription()
+    //{
+    //    if (descriptionGenerated)
+    //        return;
 
-    public OptionsHolder optionsHolder;
+    //    string text =  " ";
 
-    void GenerateDescription()
-    {
-        if (descriptionGenerated)
-            return;
+    //    foreach (Action action in actions)
+    //    {
+    //        switch(action.actionType)
+    //        {
+    //            case Action.ActionType.add:
+    //                text += AddText(action);
+    //                break;
 
-        string text =  " ";
+    //            case Action.ActionType.remove:
+    //                text += "Removes ";
+    //                if (action.cardIndent == CardStatisctics.Identifaier.noIdent)
+    //                    text += "random ";
+    //                foreach (Card.Type type in action.cardTypes)
+    //                    text += type.ToString().ToUpper() + " ";
+    //                if (action.cardIndent != CardStatisctics.Identifaier.noIdent)
+    //                    text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
+    //                text += "from your DECK.";
+    //                break;
 
-        foreach (Action action in actions)
-        {
-            switch(action.actionType)
-            {
-                case Action.ActionType.add:
-                    text += AddText(action);
-                    break;
+    //            case Action.ActionType.removeThis:
+    //                text += "Removes THIS CARD from your DECK.";
+    //                break;
 
-                case Action.ActionType.remove:
-                    text += "Removes ";
-                    if (action.cardIndent == CardStatisctics.Identifaier.noIdent)
-                        text += "random ";
-                    foreach (Card.Type type in action.cardTypes)
-                        text += type.ToString().ToUpper() + " ";
-                    if (action.cardIndent != CardStatisctics.Identifaier.noIdent)
-                        text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
-                    text += "from your DECK.";
-                    break;
+    //            //case ActionType.repleace:
+    //            //    text += RemoveText(action);
+    //            //    text += "\n";
+    //            //    text += AddText(action);
 
-                case Action.ActionType.removeThis:
-                    text += "Removes THIS CARD from your DECK.";
-                    break;
+    //            //    break;
 
-                //case ActionType.repleace:
-                //    text += RemoveText(action);
-                //    text += "\n";
-                //    text += AddText(action);
+    //            //case ActionType.cardNext:
+    //            //    text += RemoveText(action);
+    //            //    text += "\n";
+    //            //    text += "And adds it's next form to your deck.";
+    //            //    break;
 
-                //    break;
+    //            //case ActionType.cardPrevious:
+    //            //    text += RemoveText(action);
+    //            //    text += "\n";
+    //            //    text += "And adds it's previous form to your deck.";
+    //            //    break;
+    //        }
 
-                //case ActionType.cardNext:
-                //    text += RemoveText(action);
-                //    text += "\n";
-                //    text += "And adds it's next form to your deck.";
-                //    break;
+    //        text += "\n \n";
+    //    }
 
-                //case ActionType.cardPrevious:
-                //    text += RemoveText(action);
-                //    text += "\n";
-                //    text += "And adds it's previous form to your deck.";
-                //    break;
-            }
+    //    for (int i = 0; i < types.Count; i++)
+    //    {
+    //        if (values[i] > 0)
+    //            text += "+";
+    //        else
+    //            text += "-";
 
-            text += "\n \n";
-        }
+    //        text += values[i] + " " + types[i].ToString().ToUpper();
 
-        for (int i = 0; i < types.Count; i++)
-        {
-            if (values[i] > 0)
-                text += "+";
-            else
-                text += "-";
-
-            text += values[i] + " " + types[i].ToString().ToUpper();
-
-            text += "\n \n";
-        }
+    //        text += "\n \n";
+    //    }
 
         //text += " \n";
 
-        GetComponent<Text>().text += text;
+    //    GetComponent<Text>().text += text;
 
-        descriptionGenerated = true;
-    }
+    //    descriptionGenerated = true;
+    //}
 
-    string AddText(Action action)
-    {
-        string text = "Adds ";
+    //string AddText(Action action)
+    //{
+    //    string text = "Adds ";
 
-        if(action.number > 1)
-        {
-            text += action.number + "x ";
-        }
+    //    if(action.number > 1)
+    //    {
+    //        text += action.number + "x ";
+    //    }
 
-        if (action.cardTypes.Count == 0)
-        {
-            //text += MenagersReferencer.GetCardsGen().GetCardWithIdent(action.cardIndent).name + " ";
-            text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
-        }
-        else if(action.cardIndent == CardStatisctics.Identifaier.noIdent)
-        {
-            text += "random ";
-            foreach (Card.Type type in action.cardTypes)
-                text += type.ToString().ToUpper() + " ";
-        }
-        else
-        {
-            for(int i = 0; i < action.cardTypes.Count; i++)
-                text += action.cardTypes[i].ToString().ToUpper() + " ";
-            text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
-        }
+    //    if (action.cardTypes.Count == 0)
+    //    {
+    //        //text += MenagersReferencer.GetCardsGen().GetCardWithIdent(action.cardIndent).name + " ";
+    //        text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
+    //    }
+    //    else if(action.cardIndent == CardStatisctics.Identifaier.noIdent)
+    //    {
+    //        text += "random ";
+    //        foreach (Card.Type type in action.cardTypes)
+    //            text += type.ToString().ToUpper() + " ";
+    //    }
+    //    else
+    //    {
+    //        for(int i = 0; i < action.cardTypes.Count; i++)
+    //            text += action.cardTypes[i].ToString().ToUpper() + " ";
+    //        text += optionsHolder.card.GetStringFromIdent(action.cardIndent) + " ";
+    //    }
 
-        text += "to your DECK.";
+    //    text += "to your DECK.";
 
-        return text;
-    }
+    //    return text;
+    //}
 
-    string RemoveText(Action action)
-    {
-        string text = "Removes ";
+    //string RemoveText(Action action)
+    //{
+    //    string text = "Removes ";
 
-        //if (action.useIdent)
-        //{
-        //    text += "this card";
-        //}
-        //else
-        //{
-        //    text += "random ";
-        //    foreach (Card.Type type in action.cardTypes)
-        //        text += type.ToString() + " ";
-        //}
+    //    //if (action.useIdent)
+    //    //{
+    //    //    text += "this card";
+    //    //}
+    //    //else
+    //    //{
+    //    //    text += "random ";
+    //    //    foreach (Card.Type type in action.cardTypes)
+    //    //        text += type.ToString() + " ";
+    //    //}
 
-        text += " from your deck.";
+    //    text += " from your deck.";
 
-        return text;
-    }
+    //    return text;
+    //}
 
     public void ShowDescription()
     {
@@ -157,10 +150,10 @@ public class Option : MonoBehaviour {
         if (this == new Option(ButtonsGenerator.ColorGroup.blocked, "..."))
             return true;
 
-        if(identNeeded != CardStatisctics.Identifaier.noIdent || cardTypesNeeded.Count > 0)
-        if (!MenagersReferencer.GetDeck().IsThereCardWithTypeAndIdent(cardTypesNeeded, identNeeded) 
-            && !MenagersReferencer.GetGrave().IsThereCardWithTypeAndIdent(cardTypesNeeded, identNeeded))
-            return false;
+        //if(identNeeded != CardStatisctics.Identifaier.noIdent || cardTypesNeeded.Count > 0)
+        //if (!MenagersReferencer.GetDeck().IsThereCardWithTypeAndIdent(cardTypesNeeded, identNeeded) 
+        //    && !MenagersReferencer.GetGrave().IsThereCardWithTypeAndIdent(cardTypesNeeded, identNeeded))
+        //    return false;
 
         for (int i = 0; i < types.Count; i++)
         {
@@ -171,20 +164,6 @@ public class Option : MonoBehaviour {
         return true;
     }
 
-    void Start()
-    {
-        actions = new List<Action>();
-
-        for (int i = 0; i < transform.childCount; i++)
-        {
-            transform.GetChild(i).GetComponent<Action>().option = this;
-            actions.Add(transform.GetChild(i).GetComponent<Action>());
-        }
-
-        if(!descriptionGenerated)
-            GenerateDescription();
-    }
-
     public void ExecuteOption()
     {
         for (int j = 0; j < types.Count; j++)
@@ -192,16 +171,22 @@ public class Option : MonoBehaviour {
             MenagersReferencer.pointsMenager.AddPoints(values[j], types[j]/*optionsHolder.card.GetNameOfType(types[j])*/);
         }
 
-        foreach(Action action in actions)
+        if(removeIt)
         {
-            action.Execute();
-            //MenagersReferencer.cardsGen.AddNewCardToDeck(i);
+            MenagersReferencer.GetDeck().DestroyTop();
         }
+
+        for(int i = 0; i < GetNumberOfBranches(); i++) //FINISH IT
+        {
+            CardControl cardCont = (CardControl)GetBranch(i);
+        }
+
+
     }
 
     public Option(ButtonsGenerator.ColorGroup color, string text)
     {
-        types = new List<Card.Type>();
+        types = new List<PointsHolder.PointsType>();
         values = new List<int>();
 
         this.colorGrup = color;

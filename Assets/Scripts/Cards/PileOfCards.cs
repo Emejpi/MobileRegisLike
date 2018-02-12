@@ -22,30 +22,30 @@ public class PileOfCards : MenagingObject {
         return cardsOfIndex[Random.Range(0, cardsOfIndex.Count)];
     }
 
-    public List<Card> GetCardsOfType(List<Card.Type> types)
-    {
-        List<Card> cardsOfType = new List<Card>();
+    //public List<Card> GetCardsOfType(List<Card.Type> types)
+    //{
+    //    List<Card> cardsOfType = new List<Card>();
 
-        foreach (Card card in cards)
-            if (card.IsItOfTypes(types))
-                cardsOfType.Add(card);
+    //    foreach (Card card in cards)
+    //        if (card.IsItOfTypes(types))
+    //            cardsOfType.Add(card);
 
-        return cardsOfType;
-    }
+    //    return cardsOfType;
+    //}
 
-    public bool GetRandomCard(List<Card.Type> types, out Card outCard)
-    {
-        List<Card> cardsOfType = GetCardsOfType(types);
+    //public bool GetRandomCard(List<Card.Type> types, out Card outCard)
+    //{
+    //    List<Card> cardsOfType = GetCardsOfType(types);
 
-        if (cardsOfType.Count == 0)
-        {
-            outCard = new Card();
-            return false;
-        }
+    //    if (cardsOfType.Count == 0)
+    //    {
+    //        outCard = new Card();
+    //        return false;
+    //    }
 
-        outCard = cardsOfType[Random.Range(0, cardsOfType.Count)];
-        return true;
-    }
+    //    outCard = cardsOfType[Random.Range(0, cardsOfType.Count)];
+    //    return true;
+    //}
 
     public void FlipAll()
     {
@@ -92,32 +92,32 @@ public class PileOfCards : MenagingObject {
         card.currentPile = this;
     }
 
-    public Card GetCardWithIdent(Card.Identifaier ident)
-    {
-        foreach (Card card in cards)
-        {
-            if (card.ident == ident)
-                return card;
-        }
+    //public Card GetCardWithIdent(Card.Identifaier ident)
+    //{
+    //    foreach (Card card in cards)
+    //    {
+    //        if (card.ident == ident)
+    //            return card;
+    //    }
 
-        return new Card();
-    }
+    //    return new Card();
+    //}
 
-    public bool IsThereCardWithTypeAndIdent(List<Card.Type> cardTypesNeeded, Card.Identifaier identNeeded)
-    {
-        return GetCardWithTypeAndIdent(cardTypesNeeded, identNeeded) != new Card();
-    }
+    //public bool IsThereCardWithTypeAndIdent(List<Card.Type> cardTypesNeeded, Card.Identifaier identNeeded)
+    //{
+    //    return GetCardWithTypeAndIdent(cardTypesNeeded, identNeeded) != new Card();
+    //}
 
-    public Card GetCardWithTypeAndIdent(List<Card.Type> cardTypesNeeded, Card.Identifaier identNeeded)
-    {
-        foreach (Card card in cards)
-        {
-            if ((card.IsItOfTypes(cardTypesNeeded))
-                && (identNeeded == CardStatisctics.Identifaier.noIdent || card.ident == identNeeded))
-                return card;
-        }
-        return new Card();
-    }
+    //public Card GetCardWithTypeAndIdent(List<Card.Type> cardTypesNeeded, Card.Identifaier identNeeded)
+    //{
+    //    foreach (Card card in cards)
+    //    {
+    //        if ((card.IsItOfTypes(cardTypesNeeded))
+    //            && (identNeeded == CardStatisctics.Identifaier.noIdent || card.ident == identNeeded))
+    //            return card;
+    //    }
+    //    return new Card();
+    //}
 
     public void DestroyAll()
     {
@@ -142,14 +142,14 @@ public class PileOfCards : MenagingObject {
         return card;
     }
 
-    public Card DestroyCard(List<Card.Type> types)
-    {
-        Card cardToDestroy;
-        if(GetRandomCard(types, out cardToDestroy))
-            return DestroyCard(cardToDestroy);
+    //public Card DestroyCard(List<Card.Type> types)
+    //{
+    //    Card cardToDestroy;
+    //    if(GetRandomCard(types, out cardToDestroy))
+    //        return DestroyCard(cardToDestroy);
 
-        return new Card();
-    }
+    //    return new Card();
+    //}
 
     protected void MoveCardBeetweenPiles(Card card, PileOfCards pileTo)
     {

@@ -97,6 +97,7 @@
     <Compile Include="Assets\Scripts\Cards\NamesHolder.cs" />
     <Compile Include="Assets\Scripts\Cards\PileOfCards.cs" />
     <Compile Include="Assets\Scripts\ChildsReferencer.cs" />
+    <Compile Include="Assets\Scripts\GraphElement.cs" />
     <Compile Include="Assets\Scripts\IconInButton.cs" />
     <Compile Include="Assets\Scripts\MaxButtonsHolder.cs" />
     <Compile Include="Assets\Scripts\MenagersReferencer.cs" />

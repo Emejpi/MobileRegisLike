@@ -11,6 +11,10 @@ public class Deck : PileOfCards {
 
     public int maxDeckSize;
 
+    public CardControl manuCard;
+
+    public Option waitingOption;
+
     public void TopJustRemovedYouAreWelcome()
     {
         topJustRemoved = true;
@@ -18,7 +22,7 @@ public class Deck : PileOfCards {
 
     public void RemoveTop()
     {
-        MenagersReferencer.GetButtonsMenager().Generate(new Option(ButtonsGenerator.ColorGroup.blocked, "WAIT"));
+        MenagersReferencer.GetButtonsMenager().Generate(waitingOption);
         MenagersReferencer.GetButtonsMenager().DisActivateButtons();
 
         if (cards.Count > 1)
@@ -45,12 +49,17 @@ public class Deck : PileOfCards {
         FlipTop();
     }
 
+    public void DestroyTop()
+    {
+        DestroyCard(cards[0]);
+    }
+
     public void GenerateButtons(Card card)
     {
         if (cards.Count == 0 || card != cards[0])
             return;
 
-        MenagersReferencer.GetButtonsMenager().Generate(card.optionsHolder);
+        MenagersReferencer.GetButtonsMenager().Generate(card.myControl);
     }
 
     // Use this for initialization
@@ -66,10 +75,12 @@ public class Deck : PileOfCards {
 
     public void AddManuCard()
     {
-        Card card = MenagersReferencer.GetCardsGen().CreateNewCard(
-            MenagersReferencer.GetCardsGen().GetCardWithIdent(CardStatisctics.Identifaier.manu));
+        Card card = MenagersReferencer.GetCardsGen().CreateNewCard(manuCard);
         //card.Flip(100);
         InsertCard(card, cards.Count);
+
+        for(int i = 0; i < 10; i++)
+        MenagersReferencer.GetCardsGen().AddNewCardToDeck(manuCard);
     }
 
     public void AjustDeckSize(int size)
@@ -175,27 +186,27 @@ public class Deck : PileOfCards {
         return Random.Range(0, 100) < cards.Count * 100 / (cards.Count + secondMainPile.cards.Count);
     }
 
-    public Card GetRandomCardOfTypeFromCardsInPlay(List<Card.Type> types)
-    {
-        Card card;
+    //public Card GetRandomCardOfTypeFromCardsInPlay(List<Card.Type> types)
+    //{
+    //    Card card;
 
-        if (ShuldIChooseDeck())
-        {
-            if(GetRandomCard(types, out card))
-            return card;
-        }
-        secondMainPile.GetRandomCard(types, out card);
+    //    if (ShuldIChooseDeck())
+    //    {
+    //        if(GetRandomCard(types, out card))
+    //        return card;
+    //    }
+    //    secondMainPile.GetRandomCard(types, out card);
 
-        return card;
-    }
+    //    return card;
+    //}
 
-    public Card DestroyCardOfTypeFromCardsInPlay(List<Card.Type> types)
-    {
-        if(ShuldIChooseDeck())
-        {
-            return DestroyCard(types);
-        }
-            return secondMainPile.DestroyCard(types);
-    }
+    //public Card DestroyCardOfTypeFromCardsInPlay(List<Card.Type> types)
+    //{
+    //    if(ShuldIChooseDeck())
+    //    {
+    //        return DestroyCard(types);
+    //    }
+    //        return secondMainPile.DestroyCard(types);
+    //}
 
 }

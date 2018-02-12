@@ -5,6 +5,17 @@ using UnityEngine.UI;
 
 public class PointsHolder : NamesHolder {
 
+    public enum PointsType
+    {
+        monay,
+        people,
+        rooms,
+        knowladge
+    }
+
+    public PointsType type;
+    public int value;
+
     public void Add(int value)
     {
         this.value += value;
@@ -14,7 +25,7 @@ public class PointsHolder : NamesHolder {
 
         text.text = this.value + "";
 
-        UpdateNames();
+        //UpdateNames();
     }
 
     //public void Add(int value, string name)
@@ -33,16 +44,13 @@ public class PointsHolder : NamesHolder {
     //    Add(value);
     //}
 
-    void UpdateNames()
-    {
-        while(names.Count < value)
-        {
-            names.Add(MenagersReferencer.GetCardsGen().namesGen.GetRandomName(type));
-        }
-    }
-
-    //public Card.Type type;
-    public int value;
+    //void UpdateNames()
+    //{
+    //    while(names.Count < value)
+    //    {
+    //        names.Add(MenagersReferencer.GetCardsGen().namesGen.GetRandomName(type));
+    //    }
+    //}
 
     Text text;
 
@@ -51,6 +59,6 @@ public class PointsHolder : NamesHolder {
         text = transform.GetChild(0).GetComponent<Text>();
         text.text = value + "";
 
-        UpdateNames();
+        //UpdateNames();
     }
 }

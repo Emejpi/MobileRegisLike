@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NamesHolder : MonoBehaviour {
 
-    public Card.Type type;
+    //public Card.Type type;
 
     public string nameOfType;
 
