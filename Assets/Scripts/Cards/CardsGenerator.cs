@@ -69,22 +69,26 @@ public class CardsGenerator : PileOfCards {
         card.deck = (Deck)secondMainPile;
         card.transform.parent = secondMainPile.transform;
 
-        //for (int i = 0; i < iniciator.namesForText.Count; i++)
-        //    card.AddNameForText(iniciator.namesForText[i], iniciator.namesTypesForText[i]);
-
-        //if (false && MenagersReferencer.GetDeck().ShuldIChooseDeck())
-        //{
-        //    card.Flip(100);
-        //    MenagersReferencer.GetDeck().InsertCardOnRandomPosition(card);
-        //}
-        //else
-        {
-            MoveCardBeetweenPiles(card, MenagersReferencer.GetGrave());
-        }
+        MoveCardBeetweenPiles(card, MenagersReferencer.GetGrave());
 
         return card;
     }
-    
+
+    public Card AddNewCardOnTopOfDeck(CardControl cardCont)
+    {
+        Card card = CreateNewCard(cardCont);
+        card.deck = (Deck)secondMainPile;
+        card.transform.parent = secondMainPile.transform;
+
+        //card.Flip(100);
+        MenagersReferencer.GetDeck().TopJustCreated();
+        MenagersReferencer.GetDeck().InsertCard(card, 0);
+
+        //MoveCardBeetweenPiles(card, MenagersReferencer.GetGrave());
+
+        return card;
+    }
+
     //public void AddCardRandomToDeck(List<Card.Type> types/*, Card iniciator*/)
     //{
     //    Card cardToAdd;

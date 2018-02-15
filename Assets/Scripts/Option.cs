@@ -12,7 +12,19 @@ public class Option : GraphElement {
     public List<PointsHolder.PointsType> types;
     public List<int> values;
 
+    [System.Serializable]
+    public class PriorityModifaier
+    {
+        public int value;
+        public GraphElement element;
+    }
+
+    public PriorityModifaier priorityMod;
+    public List<PriorityModifaier> priorityMods;
+
     public bool removeIt;
+    public bool showNewCardRightAway;
+
 
     bool descriptionGenerated;
 
@@ -176,11 +188,24 @@ public class Option : GraphElement {
             MenagersReferencer.GetDeck().DestroyTop();
         }
 
-        for(int i = 0; i < GetNumberOfBranches(); i++) //FINISH IT
+        UpdateElements();
+
+        for(int i = 0; i < GetNumberOfElements(); i++) //FINISH IT
         {
-            CardControl cardCont = (CardControl)GetBranch(i);
+            CardControl cardCont = (CardControl)GetElement(i);
+
+            if(showNewCardRightAway)
+            {
+                MenagersReferencer.GetCardsGen().AddNewCardOnTopOfDeck(cardCont);
+            }
+            else
+                MenagersReferencer.GetCardsGen().AddNewCardToDeck(cardCont);
         }
 
+        foreach(PriorityModifaier mod in priorityMods)
+        {
+            mod.element.priority += mod.value;
+        }
 
     }
 
@@ -191,6 +216,14 @@ public class Option : GraphElement {
 
         this.colorGrup = color;
         this.text = text;
+    }
+
+    void Start()
+    {
+        Prepare();
+
+        if (priorityMod.element != null)
+            priorityMods.Add(priorityMod);
     }
 
 }

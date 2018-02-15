@@ -7,13 +7,19 @@ public class Deck : PileOfCards {
     public float pleacmentRange;
     public float rotationRange;
 
-    public bool topJustRemoved;
+    bool topJustRemoved;
+    bool topJustCreated;
 
     public int maxDeckSize;
 
     public CardControl manuCard;
 
     public Option waitingOption;
+
+    public void TopJustCreated()
+    {
+        topJustCreated = true;
+    }
 
     public void TopJustRemovedYouAreWelcome()
     {
@@ -25,28 +31,37 @@ public class Deck : PileOfCards {
         MenagersReferencer.GetButtonsMenager().Generate(waitingOption);
         MenagersReferencer.GetButtonsMenager().DisActivateButtons();
 
-        if (cards.Count > 1)
+        Card card = null;
+
+        if (cards.Count > 0)
         {
             if (!topJustRemoved)
             {
-                Card card = cards[0];
-                MoveCardBeetweenPiles(card, secondMainPile);
-                card.Flip();
+                card = cards[0];
             }
         }
-        else if(!topJustRemoved || cards.Count == 0)
+
+        if (((cards.Count == 1 && ! topJustRemoved) || (topJustRemoved && cards.Count == 0)) && (card || (topJustRemoved && !topJustCreated)))
         {
-            if(cards.Count != 0)
-                cards[0].Flip();
+
             //MoveCardBeetweenPiles(cards[0], secondMainPile);
-            secondMainPile.Remove(maxDeckSize - 1);
+            secondMainPile.Remove(maxDeckSize);
        
             Shuffle();
         }
 
-        topJustRemoved = false;
+        if (card)
+        {
+            MoveCardBeetweenPiles(card, secondMainPile);
+            card.Flip();
+        }
 
-        FlipTop();
+        topJustRemoved = false;
+        
+        if(!topJustCreated)
+            FlipTop();
+
+        topJustCreated = false;
     }
 
     public void DestroyTop()
@@ -64,6 +79,8 @@ public class Deck : PileOfCards {
 
     // Use this for initialization
     void Start () {
+        topJustCreated = false;
+        topJustRemoved = false;
         UpdateCardList();
         Shuffle();
         ApplyRandomPleacment();
@@ -112,7 +129,7 @@ public class Deck : PileOfCards {
         InsertCard(card, Random.Range(1, cards.Count + 1));
     }
 
-    void InsertCard(Card card, int index) //SKONC TO
+    public void InsertCard(Card card, int index) //SKONC TO
     {
         AddCard(index, card);
         

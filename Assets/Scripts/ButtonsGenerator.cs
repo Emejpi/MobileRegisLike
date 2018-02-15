@@ -74,9 +74,10 @@ public class ButtonsGenerator : ChildsReferencer {
     //    Generate(); 
     //}
 
-    public void Generate(GraphElement optionsHolder)
+    public void Generate(GraphElement card)
     {
-        numberOfButtons = optionsHolder.GetNumberOfBranches();
+        card.UpdateElements();
+        numberOfButtons = card.GetNumberOfElements();
 
         DestroyButtons();
 
@@ -111,7 +112,7 @@ public class ButtonsGenerator : ChildsReferencer {
                     rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize = new Vector2(buttonsSpeace.x / rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons, rowsHolder.GetChild(i).GetComponent<GridLayoutGroup>().cellSize.y);
                     for (int j = 0; j < rowsHolder.GetChild(i).GetComponent<MaxButtonsHolder>().currentButtons; j++)
                     {
-                        Option optionCur = (Option)optionsHolder.GetBranch(indexer);
+                        Option optionCur = (Option)card.GetElement(indexer);
                         Button buttonCur = rowsHolder.GetChild(i)
                             .GetComponent<MaxButtonsHolder>().GetChild(j).GetComponent<Button>();
 

@@ -10,13 +10,13 @@ public class GraveEditor : Editor
         DrawDefaultInspector();
 
         Grave myScript = (Grave)target;
-        if (GUILayout.Button("Flip"))
+        if (GUILayout.Button("Generate Sections"))
         {
-            myScript.FlipTop();
+            myScript.CreateChanceSections(myScript.maxPriory);
         }
-        if (GUILayout.Button("Remove"))
+        if (GUILayout.Button("Next Priory"))
         {
-            myScript.RemoveTop();
+            myScript.nextPriory = myScript.NextPriory();
         }
         if (GUILayout.Button("BackToDeck"))
         {
