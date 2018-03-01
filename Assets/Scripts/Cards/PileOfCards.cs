@@ -22,6 +22,47 @@ public class PileOfCards : MenagingObject {
         return cardsOfIndex[Random.Range(0, cardsOfIndex.Count)];
     }
 
+    public bool IsThereCardOfPriory(int priory)
+    {
+        foreach (Card card in cards)
+            if (card.myControl.priority == priory)
+                return true;
+        return false;
+    }
+
+    public List<Card> GetCardsAvaibleInDay(int day)
+    {
+        List<Card> cardsInDay = new List<Card>();
+
+        foreach(Card card in cards)
+        {
+            if (card.myControl.IsItAvaibleInDay(day) && card.myControl.IsUnlocked())
+                cardsInDay.Add(card);
+        }
+
+        return cardsInDay;
+    }
+
+    public Card GetRandomCardOfPriory(int priory)
+    {
+        return GetRandomCardOfPriory(priory, cards);
+    }
+
+    public Card GetRandomCardOfPriory(int priory, List<Card> cards)
+    {
+        List<Card> cardsOfPriory = new List<Card>();
+        foreach (Card card in cards)
+            if (card.myControl.priority == priory)
+                cardsOfPriory.Add(card);
+
+        print("priory:" + priory + "  cards:" + cardsOfPriory.Count);
+
+        if (cardsOfPriory.Count > 0)
+            return cardsOfPriory[Random.Range(0, cardsOfPriory.Count)];
+
+        return new Card();               
+    }
+
     //public List<Card> GetCardsOfType(List<Card.Type> types)
     //{
     //    List<Card> cardsOfType = new List<Card>();
@@ -92,6 +133,13 @@ public class PileOfCards : MenagingObject {
         card.currentPile = this;
     }
 
+    public void CleanCards()
+    {
+        for (int i = cards.Count - 1; i >= 0; i--)
+            if (!cards[i])
+                cards.RemoveAt(i);
+    }
+
     //public Card GetCardWithIdent(Card.Identifaier ident)
     //{
     //    foreach (Card card in cards)
@@ -153,6 +201,7 @@ public class PileOfCards : MenagingObject {
 
     protected void MoveCardBeetweenPiles(Card card, PileOfCards pileTo)
     {
+        print("move");
         pileTo.AddCard(card);
         card.Flip(pileTo.transform.position);
         card.currentPile = pileTo;

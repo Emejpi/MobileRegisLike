@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Deck : PileOfCards {
 
@@ -14,7 +15,19 @@ public class Deck : PileOfCards {
 
     public CardControl manuCard;
 
-    public Option waitingOption;
+    public CardControl waitingOption;
+
+    int currentDay;
+    public Text currentDayText;
+
+    public int NextDay()
+    {
+        currentDay++;
+
+        currentDayText.text = currentDay + "";
+
+        return currentDay;
+    }
 
     public void TopJustCreated()
     {
@@ -37,7 +50,14 @@ public class Deck : PileOfCards {
         {
             if (!topJustRemoved)
             {
-                card = cards[0];
+                if (topJustCreated)
+                {
+                    card = cards[1];
+                }
+                else
+                {
+                    card = cards[0];
+                }
             }
         }
 
@@ -45,7 +65,7 @@ public class Deck : PileOfCards {
         {
 
             //MoveCardBeetweenPiles(cards[0], secondMainPile);
-            secondMainPile.Remove(maxDeckSize);
+            MenagersReferencer.GetGrave().Remove(maxDeckSize);
        
             Shuffle();
         }
@@ -79,6 +99,7 @@ public class Deck : PileOfCards {
 
     // Use this for initialization
     void Start () {
+        currentDay = 0;
         topJustCreated = false;
         topJustRemoved = false;
         UpdateCardList();
@@ -86,7 +107,6 @@ public class Deck : PileOfCards {
         ApplyRandomPleacment();
         AjustDeckSize(0);
         AddManuCard();
-        
         //cards[0].Flip();
     }
 
@@ -96,8 +116,8 @@ public class Deck : PileOfCards {
         //card.Flip(100);
         InsertCard(card, cards.Count);
 
-        for(int i = 0; i < 10; i++)
-        MenagersReferencer.GetCardsGen().AddNewCardToDeck(manuCard);
+        //for(int i = 0; i < 10; i++)
+        //MenagersReferencer.GetCardsGen().AddNewCardToDeck(manuCard);
     }
 
     public void AjustDeckSize(int size)

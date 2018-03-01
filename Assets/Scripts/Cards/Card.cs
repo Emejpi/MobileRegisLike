@@ -13,6 +13,8 @@ public class Card : CardStatisctics {
 
     Vector3 targetRot = new Vector3(0, 180, 10);
 
+    public float scaleMod = 1;
+
     public enum State
     {
         nothing,
@@ -186,7 +188,7 @@ public class Card : CardStatisctics {
                         (speedFlipping + extraSpeed)* Time.deltaTime, (speedFlipping + extraSpeed) * Time.deltaTime * 75);
 
                 float parabol = (90 - Mathf.Abs(transform.eulerAngles.y - 90)) / 90;
-                float currentScale = 0.05f + parabol * scaleFlipping;
+                float currentScale = 0.05f * scaleMod + parabol * scaleFlipping;
                 float curretSideMove = parabol * sideMoveFlipping / (10 / poseChangingSpeedFlipping);
 
                 transform.localScale = new Vector3(currentScale, currentScale, 0);

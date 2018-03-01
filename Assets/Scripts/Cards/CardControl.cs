@@ -8,6 +8,10 @@ public class CardControl : GraphElement {
 
     public CardControl inharited;
 
+    public string text;
+
+    public bool startDeck;
+
     void Start()
     {
         Prepare();

@@ -86,11 +86,6 @@
     <Compile Include="Assets\Scripts\Cards\CardsGenerator.cs" />
     <Compile Include="Assets\Scripts\Cards\CardStatisctics.cs" />
     <Compile Include="Assets\Scripts\Cards\Deck.cs" />
-    <Compile Include="Assets\Scripts\Cards\Editors\ButtonsGeneratorEditor.cs" />
-    <Compile Include="Assets\Scripts\Cards\Editors\CardEditor.cs" />
-    <Compile Include="Assets\Scripts\Cards\Editors\CardsGeneratorEditor.cs" />
-    <Compile Include="Assets\Scripts\Cards\Editors\DeckEditor.cs" />
-    <Compile Include="Assets\Scripts\Cards\Editors\GraveEditor.cs" />
     <Compile Include="Assets\Scripts\Cards\Grave.cs" />
     <Compile Include="Assets\Scripts\Cards\MaskingSolver.cs" />
     <Compile Include="Assets\Scripts\Cards\NamesGenerator.cs" />
@@ -110,6 +105,7 @@
     <Compile Include="Assets\Scripts\RowsHolder.cs" />
     <Compile Include="Assets\Scripts\SingleButton.cs" />
     <Compile Include="Assets\Scripts\TextWithSpecialSymbols.cs" />
+    <Compile Include="Assets\Scripts\UnlockableHolder.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

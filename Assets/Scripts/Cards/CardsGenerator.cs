@@ -15,7 +15,7 @@ public class CardsGenerator : PileOfCards {
         //print(Card.Type.monster.ToString());
 
         UpdateCardsIndexes();
-        //GenerateStartDeck();
+        GenerateStartDeck();
     }
 
     public int GetNewIndex()
@@ -39,12 +39,14 @@ public class CardsGenerator : PileOfCards {
 
     public void GenerateStartDeck()
     {
-        //for (int i = 0; i < cards.Count; i++)
-        //{
-        //    cards[i].index = i;
-        //    if (cards[i].startDeckCard)
-        //        CreateNewCard(cards[i]).transform.parent = secondMainPile.transform;
-        //}
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            CardControl cardCont = transform.GetChild(i).GetComponent<CardControl>();
+            if (cardCont.startDeck)
+            {
+                AddNewCardToDeck(cardCont);
+            }
+        }
     }
 
     //Card CreateNewCard(int index)
@@ -59,6 +61,8 @@ public class CardsGenerator : PileOfCards {
         GameObject newCard = Instantiate(cardBase, transform.position, cardBase.transform.rotation);
         newCard.SetActive(true);
         newCard.GetComponent<Card>().myControl = cardControl;
+        newCard.GetComponent<Card>().textMain.text = cardControl.text;
+        newCard.GetComponent<Card>().tittle.text = cardControl.gameObject.name;
         return newCard.GetComponent<Card>();
         //MoveCardBeetweenPiles(cardCopie, secondMainPile);
     }
@@ -67,9 +71,10 @@ public class CardsGenerator : PileOfCards {
     {
         Card card = CreateNewCard(cardCont);
         card.deck = (Deck)secondMainPile;
-        card.transform.parent = secondMainPile.transform;
+        card.transform.parent = MenagersReferencer.GetGrave().transform;
 
         MoveCardBeetweenPiles(card, MenagersReferencer.GetGrave());
+
 
         return card;
     }

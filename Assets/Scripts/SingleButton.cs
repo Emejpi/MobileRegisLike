@@ -83,20 +83,47 @@ public class SingleButton : MonoBehaviour {
     {
         myOption = option;
 
-        GetComponent<GridLayoutGroup>().cellSize = new Vector2(transform.parent.GetComponent<GridLayoutGroup>().cellSize.x, 180);
+        GetComponent<GridLayoutGroup>().cellSize = new Vector2(transform.parent.GetComponent<GridLayoutGroup>().cellSize.x - 10, transform.parent.GetComponent<GridLayoutGroup>().cellSize.y);
 
 
         int i = 0;
         for (i = 0; i < iconsHolder.transform.childCount; i++)
         {
             if (i >= option.types.Count)
+            {
+                if (option.unlockableSCond.Count != 0 && option.unlockableSCond[0].needed)
+                {
+                    iconsHolder.transform.GetChild(i).gameObject.SetActive(true);
+
+                    iconsHolder.transform.GetChild(i).GetComponent<IconInButton>().
+                        UpdateIt(MenagersReferencer.GetUnlockablesManager().GetUnlocaBleSprite(option.unlockableSCond[0].name));
+
+                    i++;
+                }
                 break;
+            }
+            else
+            {
+                iconsHolder.transform.GetChild(i).gameObject.SetActive(true);
 
-            iconsHolder.transform.GetChild(i).gameObject.SetActive(true);
+                iconsHolder.transform.GetChild(i).GetComponent<IconInButton>().
+                    UpdateIt(MenagersReferencer.GetPointsMenager().GetPointsHolder(option.types[i]).GetComponent<Image>().sprite);
+            }
+            }
 
-            iconsHolder.transform.GetChild(i).GetComponent<IconInButton>().
-                UpdateIt(MenagersReferencer.pointsMenager.GetPointsHolder(
-                    option.types[i]).GetComponent<Image>().sprite, option.values[i]);
+        if(option.types.Count == 0 && (option.unlockableSCond.Count == 0 || !option.unlockableSCond[0].needed))
+        {
+            transform.GetChild(1).gameObject.SetActive(false);
+            transform.GetChild(0).gameObject.GetComponent<Text>().alignment = TextAnchor.MiddleCenter;
+            GetComponent<GridLayoutGroup>().cellSize = new Vector2(transform.parent.GetComponent<GridLayoutGroup>().cellSize.x - 10, transform.parent.GetComponent<GridLayoutGroup>().cellSize.y);
+
+        }
+        else
+        {
+            transform.GetChild(1).gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.GetComponent<Text>().alignment = TextAnchor.LowerCenter;
+            GetComponent<GridLayoutGroup>().cellSize = new Vector2(transform.parent.GetComponent<GridLayoutGroup>().cellSize.x - 10, transform.parent.GetComponent<GridLayoutGroup>().cellSize.y / 2);
+
         }
 
         for (; i < iconsHolder.transform.childCount; i++)

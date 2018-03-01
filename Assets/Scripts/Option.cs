@@ -7,7 +7,7 @@ public class Option : GraphElement {
 
     [Header("Option")]
     public ButtonsGenerator.ColorGroup colorGrup;
-    public string text = "";
+    //public string text = "";
 
     public List<PointsHolder.PointsType> types;
     public List<int> values;
@@ -22,11 +22,18 @@ public class Option : GraphElement {
     public PriorityModifaier priorityMod;
     public List<PriorityModifaier> priorityMods;
 
+    public UnlockableHolder.UnlockableName unlocable;
+    public bool addUnlockable;
+
     public bool removeIt;
     public bool showNewCardRightAway;
 
+    public bool gameOver;
 
     bool descriptionGenerated;
+
+    public GraphElement elementForSettingPlayerPref;
+    public int playerPrefSetValue;
 
     //void GenerateDescription()
     //{
@@ -167,20 +174,26 @@ public class Option : GraphElement {
         //    && !MenagersReferencer.GetGrave().IsThereCardWithTypeAndIdent(cardTypesNeeded, identNeeded))
         //    return false;
 
-        for (int i = 0; i < types.Count; i++)
-        {
-            if (MenagersReferencer.pointsMenager.GetValue(types[i]) < -values[i])
-                return false;
-        }
+        //for (int i = 0; i < types.Count; i++)
+        //{
+        //    if (MenagersReferencer.GetPointsMenager().GetValue(types[i]) < -values[i])
+        //        return false;
+        //}
 
         return true;
     }
 
     public void ExecuteOption()
     {
+        if(gameOver)
+        {
+            MenagersReferencer.GameOver();
+            return;
+        }
+
         for (int j = 0; j < types.Count; j++)
         {
-            MenagersReferencer.pointsMenager.AddPoints(values[j], types[j]/*optionsHolder.card.GetNameOfType(types[j])*/);
+            MenagersReferencer.GetPointsMenager().AddPoints(values[j], types[j]/*optionsHolder.card.GetNameOfType(types[j])*/);
         }
 
         if(removeIt)
@@ -204,8 +217,25 @@ public class Option : GraphElement {
 
         foreach(PriorityModifaier mod in priorityMods)
         {
-            mod.element.priority += mod.value;
+            mod.element.AddPriory(mod.value);
         }
+
+        if(unlocable != UnlockableHolder.UnlockableName.none)
+        {
+            if(addUnlockable)
+            {
+                MenagersReferencer.GetUnlockablesManager().Add(unlocable);
+            }
+            else
+            {
+                MenagersReferencer.GetUnlockablesManager().Remove(unlocable);
+            }
+        }
+
+        if(elementForSettingPlayerPref)
+            elementForSettingPlayerPref.SetPlayerPref(playerPrefSetValue);
+
+        MenagersReferencer.GetPointsMenager().CheckForHL();
 
     }
 
@@ -215,7 +245,6 @@ public class Option : GraphElement {
         values = new List<int>();
 
         this.colorGrup = color;
-        this.text = text;
     }
 
     void Start()

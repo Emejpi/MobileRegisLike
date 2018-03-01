@@ -38,6 +38,12 @@ public class PointsHoldersMenager : MonoBehaviour {
         return GetPointsHolder(type).value;
     }
 
+    public void CheckForHL()
+    {
+        foreach (PointsHolder pointsH in pointsHolders)
+            pointsH.CheckForTooHighTooLow();
+    }
+
     // Use this for initialization
     void Start () {
         UpdatePointsHolders();

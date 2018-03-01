@@ -13,6 +13,20 @@ public class GraphElement : MonoBehaviour {
     public GraphElement portalBranch;
     public List<GraphElement> portalBranches;
 
+    [System.Serializable]
+    public struct UnlockableCond
+    {
+        public UnlockableHolder.UnlockableName name;
+        public bool needed;
+    }
+
+    public UnlockableCond unlockableCond;
+    public List<UnlockableCond> unlockableSCond;
+
+    public bool playerPrefElem;
+    public int playerPrefBasicValue;
+    public string playerPrefName;
+
     public enum ElementType
     {
         single,
@@ -23,6 +37,47 @@ public class GraphElement : MonoBehaviour {
     public ElementType type;
 
     public int priority;
+
+    public int daysAvaibleMin;
+    public int daysAvaibleMax = 1000;
+
+    public void SetPlayerPref(int value)
+    {
+        PlayerPrefs.SetInt(playerPrefName, value);
+
+        if (!trunk)
+            trunk = transform.parent.GetComponent<GraphElement>();
+
+        if (value == 0)
+            trunk.branches.Remove(this);
+    }
+
+    public bool IsUnlocked()
+    {
+        foreach (UnlockableCond unlocCond in unlockableSCond)
+            if ((unlocCond.needed && !MenagersReferencer.GetUnlockablesManager().DoesItContain(unlocCond.name))
+                || (!unlocCond.needed && MenagersReferencer.GetUnlockablesManager().DoesItContain(unlocCond.name))
+                || (playerPrefElem && PlayerPrefs.GetInt(playerPrefName) == 0))
+                return false;
+
+        return true;
+    }
+
+    public int GetPriory()
+    {
+        if(!IsUnlocked())
+                return -1;
+
+        if (priority < -10)
+            priority = -1;
+
+        return priority;
+    }
+
+    public bool IsItAvaibleInDay(int day)
+    {
+        return day >= daysAvaibleMin && day <= daysAvaibleMax;
+    }
 
     public int GetNumberOfBranches() { return branches.Count; }
 
@@ -49,8 +104,8 @@ public class GraphElement : MonoBehaviour {
 
         foreach(GraphElement branch in branches)
         {
-            if (highestProry < branch.priority)
-                highestProry = branch.priority;
+            if (highestProry < branch.GetPriory())
+                highestProry = branch.GetPriory();
         }
 
         return highestProry;
@@ -64,7 +119,7 @@ public class GraphElement : MonoBehaviour {
 
         foreach(GraphElement branch in branches)
         {
-            if (branch.priority == highestProry)
+            if ((branch.GetPriory() == highestProry || branch.GetPriory() == 0))
                 branchesSignificent.Add(branch);
         }
 
@@ -117,6 +172,13 @@ public class GraphElement : MonoBehaviour {
         return elements;
     }
 
+    public void AddPriory(int value)
+    {
+        priority += value;
+        if (priority <= -10)
+            priority = -1;
+    }
+
     // Use this for initialization
     protected void Prepare()
     {
@@ -147,6 +209,26 @@ public class GraphElement : MonoBehaviour {
             }
             type = ElementType.pack;
         }
+
+        if(unlockableCond.name != UnlockableHolder.UnlockableName.none)
+        {
+            unlockableSCond.Add(unlockableCond);
+        }
+
+        foreach (GraphElement branch in branches)
+            if (branch.playerPrefElem)
+            {
+                if (!PlayerPrefs.HasKey(branch.playerPrefName))
+                    branch.SetPlayerPref(branch.playerPrefBasicValue);
+
+                if (PlayerPrefs.GetInt(branch.playerPrefName) == 0)
+                {
+                    branch.SetPlayerPref(0);
+                }
+
+            }
+
+
     }
 
     void DetachRandomBranch()

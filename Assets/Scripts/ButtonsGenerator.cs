@@ -140,7 +140,7 @@ public class ButtonsGenerator : ChildsReferencer {
 
         button.GetComponent<SingleButton>().on = true;
         button.gameObject.SetActive(true);
-        button.transform.GetChild(0).GetComponent<Text>().text = actualOption.text;
+        button.transform.GetChild(0).GetComponent<Text>().text = actualOption.name;
 
         button.GetComponent<SingleButton>().UpdateInsaid(actualOption);
 

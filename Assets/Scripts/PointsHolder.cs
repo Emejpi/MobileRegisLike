@@ -8,24 +8,42 @@ public class PointsHolder : NamesHolder {
     public enum PointsType
     {
         monay,
-        people,
-        rooms,
-        knowladge
+        health,
+        gardenState,
+        curse
     }
 
     public PointsType type;
     public int value;
 
+    public CardControl cardLow;
+    public CardControl cardHigh;
+
+    public GameObject bar;
+
     public void Add(int value)
     {
         this.value += value;
 
-        if (this.value < 0)
-            this.value = 0;
+        this.value = Mathf.Clamp(this.value, 0, 100);
 
-        text.text = this.value + "";
+        float scale = this.value / 100f;
+        bar.transform.localScale = new Vector3(1, scale, 1);
+        //text.text = this.value + "";
 
         //UpdateNames();
+    }
+
+    public void CheckForTooHighTooLow()
+    {
+        if (this.value == 100)
+        {
+            MenagersReferencer.GetCardsGen().AddNewCardOnTopOfDeck(cardHigh);
+        }
+        else if (this.value == 0)
+        {
+            MenagersReferencer.GetCardsGen().AddNewCardOnTopOfDeck(cardLow);
+        }
     }
 
     //public void Add(int value, string name)
@@ -57,7 +75,8 @@ public class PointsHolder : NamesHolder {
     void Start()
     {
         text = transform.GetChild(0).GetComponent<Text>();
-        text.text = value + "";
+        //text.text = value + "";
+        Add(0);
 
         //UpdateNames();
     }

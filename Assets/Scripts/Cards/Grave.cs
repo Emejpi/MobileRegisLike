@@ -32,6 +32,7 @@ public class Grave : PileOfCards {
             Vector2 section = chanceSections[i];
             if(chosenNumber >= section.x && chosenNumber < section.y)
             {
+                print("priory: " + i);
                 return i;
             }
         }
@@ -42,7 +43,7 @@ public class Grave : PileOfCards {
     void UpdateChanceSections()
     {
         int lastMaxPriory = currentMaxPriory;
-        UpdateMinMaxPriory();
+        //UpdateMinMaxPriory();
 
         if(currentMaxPriory != lastMaxPriory)
         {
@@ -91,16 +92,65 @@ public class Grave : PileOfCards {
         }
     }
 
+    int ChosePriory()
+    {
+        int priory;
+
+        List<int> forbiddenPriorys = new List<int>();
+
+        do
+        {
+           do
+            {
+                priory = NextPriory();
+            } while (forbiddenPriorys.Contains(priory));
+
+            if (!IsThereCardOfPriory(priory))
+            {
+                forbiddenPriorys.Add(priory);
+                continue;
+            }
+            break;
+        }while(forbiddenPriorys.Count < currentMaxPriory + 1 - currentMinPriory);
+
+        return priory;
+    }
+
     public void Remove(int amount)
     {
+        List<Card> cardsInDay = GetCardsAvaibleInDay(MenagersReferencer.GetDeck().NextDay());
+        List<Card> allCardsHolder = cards;
+
+        cards = cardsInDay;
+
+        print("all:" + allCardsHolder.Count);
+
+        UpdateMinMaxPriory();
+
+        //print(cardsInDay.Count);
+
         int acualAmout = amount;
+
+        List<Card> chosenCards = new List<Card>();
 
         for (int i = cards.Count - 1; i >= 0; i--)
         {
             if (acualAmout-- == 0)
-                return;
-            MoveCardBeetweenPiles(cards[Random.Range(0, cards.Count)], secondMainPile);
+                break;
+
+            Card chosenCard = GetRandomCardOfPriory(ChosePriory());
+            chosenCards.Add(chosenCard);
+            cards.Remove(chosenCard);
+
+            
         }
+        print("all:" + allCardsHolder.Count);
+        print("countChosen:" + chosenCards.Count);
+
+        cards = allCardsHolder;
+
+        foreach(Card card in chosenCards)
+            MoveCardBeetweenPiles(card, secondMainPile);
     }
 
 }
