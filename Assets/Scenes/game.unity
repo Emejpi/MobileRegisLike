@@ -108,6 +108,11 @@ NavMeshSettings:
     tileSize: 256
     accuratePlacement: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &505857541 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1496217790244384, guid: 0595b818195e7d944bd34452e2b7dfc9,
+    type: 2}
+  m_PrefabInternal: {fileID: 1999569056}
 --- !u!1001 &525042799
 Prefab:
   m_ObjectHideFlags: 0
@@ -656,6 +661,11 @@ Prefab:
       propertyPath: m_SizeDelta.y
       value: 120
       objectReference: {fileID: 0}
+    - target: {fileID: 114316150245869784, guid: 0595b818195e7d944bd34452e2b7dfc9,
+        type: 2}
+      propertyPath: cardBase
+      value: 
+      objectReference: {fileID: 505857541}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0595b818195e7d944bd34452e2b7dfc9, type: 2}
   m_IsPrefabParent: 0
